@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 
 module.exports = async function (context, req) {
-  const API_KEY = process.env.OPENWEATHER_API_KEY;
+  const API_KEY = process.env.f1fe4ebad498f7c370edaa4b3fe09bda;
   const city = req.query.q;
   const lat = req.query.lat;
   const lon = req.query.lon;
