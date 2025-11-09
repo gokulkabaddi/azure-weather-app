@@ -1,21 +1,30 @@
-const API_BASE = "https://weather-api.onrender.com"; // Render API URL
+const apiBase = "https://render-weather-api-z5e1.onrender.com/weather";
 
-async function getWeather() {
-    const city = document.getElementById('cityInput').value;
-    if (!city) return alert("Enter a city");
+document.getElementById("searchBtn").addEventListener("click", async () => {
+  const city = document.getElementById("cityInput").value.trim();
+  const resultDiv = document.getElementById("result");
 
-    try {
-        const res = await fetch(`${API_BASE}/weather?q=${city}`);
-        const data = await res.json();
-        if (data.error) {
-            document.getElementById('result').innerText = data.error;
-        } else {
-            document.getElementById('result').innerHTML =
-                `City: ${data.name}<br>
-                 Temp: ${data.main.temp}°C<br>
-                 Weather: ${data.weather[0].description}`;
-        }
-    } catch (err) {
-        document.getElementById('result').innerText = "Error fetching weather";
-    }
-}
+  if (!city) {
+    resultDiv.innerHTML = "<p>Please enter a city name.</p>";
+    return;
+  }
+
+  resultDiv.innerHTML = "<p>Loading...</p>";
+
+  try {
+    const res = await fetch(`${apiBase}?q=${city}`);
+    if (!res.ok) throw new Error("City not found");
+
+    const data = await res.json();
+
+    resultDiv.innerHTML = `
+      <h2>${data.name}, ${data.sys.country}</h2>
+      <p><b>Weather:</b> ${data.weather[0].description}</p>
+      <p><b>Temperature:</b> ${data.main.temp}°C</p>
+      <p><b>Humidity:</b> ${data.main.humidity}%</p>
+      <p><b>Wind Speed:</b> ${data.wind.speed} m/s</p>
+    `;
+  } catch (err) {
+    resultDiv.innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
+  }
+});
