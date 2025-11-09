@@ -1,3 +1,5 @@
+const apiBase = "https://render-weather-api-z5e1.onrender.com/weather";
+
 document.getElementById("searchBtn").addEventListener("click", async () => {
   const city = document.getElementById("cityInput").value.trim();
   const resultDiv = document.getElementById("result");
@@ -10,8 +12,7 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
   resultDiv.innerHTML = "<p>Loading...</p>";
 
   try {
-    // <-- This line fetches from your Render backend
-    const res = await fetch(`https://render-weather-api-z5e1.onrender.com/weather?q=${city}`);
+    const res = await fetch(`${apiBase}?q=${city}`);
     if (!res.ok) throw new Error("City not found");
 
     const data = await res.json();

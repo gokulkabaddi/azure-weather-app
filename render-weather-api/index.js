@@ -1,11 +1,13 @@
 import express from "express";
 import fetch from "node-fetch";
+import cors from "cors";
 
 const app = express();
+app.use(cors()); // <-- allow all origins
 
 app.get("/weather", async (req, res) => {
   const city = req.query.q;
-  const apiKey = "f1fe4ebad498f7c370edaa4b3fe09bda";
+  const apiKey = "YOUR_OPENWEATHERMAP_API_KEY";
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
   try {
